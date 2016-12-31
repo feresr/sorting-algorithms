@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         //int[] result = bubbleSort(new int[]{1, 5, 2, 4, 6, 3, 7, 8});
-        int[] result = insertionSort(new int[]{1, 5, 2, 4, 6, 3, 7, 8});
+        int[] result = quickSort(new int[]{1, 5, 2, 8, 6, 8, 7, 4}, 0 , 7);
         System.out.println(Arrays.toString(result));
     }
 
@@ -47,6 +47,32 @@ public class Main {
             }
             list[hole] = value;
         }
+        return list;
+    }
+
+    private static int[] quickSort(int[] list, int start, int end) {
+        if (start < end) {
+            int pivot = list[end];
+            int pIndex = start;
+
+            for (int i = start; i < end; i++) {
+                if (list[i] <= pivot) {
+                    int aux = list[i];
+                    list[i] = list[pIndex];
+                    list[pIndex] = aux;
+                    pIndex++;
+                }
+            }
+
+            int aux = list[end];
+            list[end] = list[pIndex];
+            list[pIndex] = aux;
+
+            quickSort(list, start, pIndex - 1);
+            quickSort(list, pIndex, end);
+
+        }
+
         return list;
     }
 }
