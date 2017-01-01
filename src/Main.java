@@ -6,8 +6,7 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        //int[] result = bubbleSort(new int[]{1, 5, 2, 4, 6, 3, 7, 8});
-        int[] result = quickSort(new int[]{1, 5, 2, 8, 6, 8, 7, 4}, 0 , 7);
+        int[] result = mergeSort(new int[]{5, 3, 2, 4, 6, 1, 8, 7});
         System.out.println(Arrays.toString(result));
     }
 
@@ -50,6 +49,7 @@ public class Main {
         return list;
     }
 
+    //worst case: O(N^2) average: O(n log n)
     private static int[] quickSort(int[] list, int start, int end) {
         if (start < end) {
             int pivot = list[end];
@@ -74,5 +74,47 @@ public class Main {
         }
 
         return list;
+    }
+
+    //Θ(n log(n))
+    private static int[] mergeSort(int[] list) {
+        if (list.length <= 1) {
+            return list;
+        }
+
+        int half = list.length / 2;
+
+        int[] half1 = mergeSort(Arrays.copyOfRange(list, 0, half));
+        int[] half2 = mergeSort(Arrays.copyOfRange(list, half, list.length));
+
+        int i1 = 0;
+        int i2 = 0;
+        int[] sorted = new int[half1.length + half2.length];
+        int si = 0;
+
+        while (i1 < half1.length && i2 < half2.length) {
+            if (half1[i1] > half2[i2]) {
+                sorted[si] = half2[i2];
+                i2++;
+            } else {
+                sorted[si] = half1[i1];
+                i1++;
+            }
+            si++;
+        }
+
+        if (i1 < i2) {
+            for (int i = i1; i < half1.length; i++) {
+                sorted[si] = half1[i];
+                si++;
+            }
+        } else {
+            for (int i = i2; i < half2.length; i++) {
+                sorted[si] = half2[i];
+                si++;
+            }
+        }
+
+        return sorted;
     }
 }
