@@ -93,9 +93,8 @@ public class Main {
                 }
             }
 
-            int aux = list[end];
             list[end] = list[pIndex];
-            list[pIndex] = aux;
+            list[pIndex] = pivot;
 
             quickSort(list, start, pIndex - 1);
             quickSort(list, pIndex, end);
