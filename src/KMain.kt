@@ -1,3 +1,5 @@
+import java.util.*
+
 /**
  * Created by feresr on 20/6/17.
  */
@@ -8,6 +10,7 @@ fun main(args: Array<String>) {
     sort("Selection Sort    Θ(n^2)", { selectionSort(unsorted.clone()) })
     sort("Insertion Sort    Θ(n^2)", { insertionSort(unsorted.clone()) })
     sort("Quick Sort        Θ(n^2)", { quickSort(unsorted.clone()) })
+    sort("Merge Sort        Θ(n log(n))", { mergeSort(unsorted.clone()) })
 }
 
 
@@ -130,6 +133,48 @@ fun quickSort(array: Array<Int>, start: Int = 0, end: Int = array.size - 1): Arr
 
         quickSort(array, start, wall - 1)
         quickSort(array, wall, end)
+    }
+
+    return array
+}
+
+/**
+ * Θ(n log(n))
+ * Split the list in two and recursively call mergeSort on
+ * them until the list consists of a single element.
+ * Then, merge the two lists together into a new list, taking always the
+ * lowest between the first elements of each list.
+ * Example: [1, 4, 9] and [2, 3, 10]
+ * Between the first elements of each list (1) and (2), take (1).
+ * Now, between (4) and (2), take (2). Between (4) and (3), take (3)...
+ */
+fun mergeSort(array: Array<Int>): Array<Int> {
+    if (array.size > 1) {
+
+        val lowerHalf = mergeSort(Arrays.copyOfRange(array, 0, array.size / 2))
+        val upperHalf = mergeSort(Arrays.copyOfRange(array, array.size / 2, array.size))
+
+        var lindex = 0
+        var uindex = 0
+        for (i in 0 until array.size) {
+            if (lindex < lowerHalf.size && uindex < upperHalf.size) {
+                if (lowerHalf[lindex] < upperHalf[uindex]) {
+                    array[i] = lowerHalf[lindex]
+                    lindex++
+                } else {
+                    array[i] = upperHalf[uindex]
+                    uindex++
+                }
+            } else {
+                if (lindex < lowerHalf.size) {
+                    array[i] = lowerHalf[lindex]
+                    lindex++
+                } else {
+                    array[i] = upperHalf[uindex]
+                    uindex++
+                }
+            }
+        }
     }
 
     return array
